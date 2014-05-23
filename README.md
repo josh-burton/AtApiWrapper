@@ -2,13 +2,17 @@
 
 ##About
 
-The AtApiWrapper is a android library that is a wrapper around the Auckland Transport public api.
+The AtApiWrapper is a android library that is a wrapper around the [Auckland Transport public api](https://api.at.govt.nz).
 
 Retrofit is used under the hood to perform all requests, which in turn uses OkHttp.
 
 I reccommend having a read through the [Retrofit docs](http://square.github.io/retrofit/).
 
 
+##Available endpoints
+
+* Realtime
+* GTFS (except shapes)
 
 ##How to use
 
@@ -49,13 +53,7 @@ The sample app is simple a practical example of how to query the api. It would b
 
 
 ###1. As a jar
-Easy as
-
-
-###2. As an aar
-
-Put in a folder called libs, and add the following to your build.gradle:
-
+Get the jar from the downloads page
 
 	
 	
