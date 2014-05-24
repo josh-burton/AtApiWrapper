@@ -5,6 +5,7 @@ import com.atapiwrapper.library.api.model.gtfs.Agency;
 import com.atapiwrapper.library.api.model.gtfs.Calendar;
 import com.atapiwrapper.library.api.model.gtfs.CalendarException;
 import com.atapiwrapper.library.api.model.gtfs.Route;
+import com.atapiwrapper.library.api.model.gtfs.ShapePoint;
 import com.atapiwrapper.library.api.model.gtfs.Stop;
 import com.atapiwrapper.library.api.model.gtfs.StopTime;
 import com.atapiwrapper.library.api.model.gtfs.Trip;
@@ -399,4 +400,44 @@ public interface GtfsService {
 	 * @param cb - callback that gets called on request complete
 	 */
 	@GET("/gtfs/trips/routeid/{routeid}") void tripsByRouteid(@Path("routeid") String routeid, Callback<ServerResponse<List<Trip>>> cb);
+
+    //---------------------------------------
+    // Shapes by id
+    //---------------------------------------
+
+    /**
+     * List of points in the given shape
+     *
+     * @param shapeId - the tripId of the desired shape
+     * @param cb - callback that gets called on request complete
+     */
+    @GET("/gtfs/shapes/shapeId/{shapeId}") void shapeById(@Path("shapeId") String shapeId, Callback<ServerResponse<List<ShapePoint>>> cb);
+
+    /**
+     * List of points in the given shape
+     *
+     * @param shapeId - the tripId of the desired shape
+     */
+    @GET("/gtfs/shapes/shapeId/{shapeId}") ServerResponse<List<ShapePoint>> shapeById(@Path("shapeId") String shapeId);
+
+    //---------------------------------------
+    // Shapes by trip id
+    //---------------------------------------
+
+    /**
+     * List of points in the shape for a given tripId
+     *
+     * @param tripId - the tripId of the desired shape
+     * @param cb - callback that gets called on request complete
+     */
+    @GET("/gtfs/shapes/tripId/{tripId}") void shapeByTripId(@Path("tripId") String tripId, Callback<ServerResponse<List<ShapePoint>>> cb);
+
+    /**
+     * List of points in the shape for a given tripId
+     *
+     * @param tripId - the tripId of the desired shape
+     */
+    @GET("/gtfs/shapes/tripId/{tripId}") ServerResponse<List<ShapePoint>> shapeByTripId(@Path("tripId") String tripId);
+
+
 }
