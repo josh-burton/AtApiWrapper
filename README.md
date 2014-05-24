@@ -12,7 +12,7 @@ I reccommend having a read through the [Retrofit docs](http://square.github.io/r
 ##Available endpoints
 
 * Realtime
-* GTFS (except shapes)
+* GTFS
 
 ##How to use
 

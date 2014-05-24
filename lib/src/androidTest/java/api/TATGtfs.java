@@ -9,6 +9,7 @@ import com.atapiwrapper.library.api.model.gtfs.Agency;
 import com.atapiwrapper.library.api.model.gtfs.Calendar;
 import com.atapiwrapper.library.api.model.gtfs.CalendarException;
 import com.atapiwrapper.library.api.model.gtfs.Route;
+import com.atapiwrapper.library.api.model.gtfs.ShapePoint;
 import com.atapiwrapper.library.api.model.gtfs.Stop;
 import com.atapiwrapper.library.api.model.gtfs.StopTime;
 import com.atapiwrapper.library.api.model.gtfs.Trip;
@@ -253,5 +254,27 @@ public class TATGtfs extends AndroidTestCase {
 		assertNotNull(result.getResponse());
 		assertTrue(result.getResponse().size() > 0);
 	}
+
+    public void testShapeById() {
+        ServerResponse<List<ShapePoint>> result = mGtfsService.shapeById("0002");
+
+        //make sure we have content
+        assertNotNull(result);
+        assertNotNull(result.getStatus());
+        assertEquals(result.getStatus(), ServerResponse.STATUS_OK);
+        assertNotNull(result.getResponse());
+        assertTrue(result.getResponse().size() > 0);
+    }
+
+    public void testShapeByTripId() {
+        ServerResponse<List<ShapePoint>> result = mGtfsService.shapeByTripId("3921ML518918151425687");
+
+        //make sure we have content
+        assertNotNull(result);
+        assertNotNull(result.getStatus());
+        assertEquals(result.getStatus(), ServerResponse.STATUS_OK);
+        assertNotNull(result.getResponse());
+        assertTrue(result.getResponse().size() > 0);
+    }
 
 }
