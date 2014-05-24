@@ -13,6 +13,7 @@ I reccommend having a read through the [Retrofit docs](http://square.github.io/r
 
 * Realtime
 * GTFS
+* Display (Parking Locations, Scheduled Works)
 
 ##How to use
 

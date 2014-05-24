@@ -81,7 +81,7 @@ public class VehicleLocationListFragment extends ListFragment {
 
 			AtApi api = new AtApi(apiKey);//construct api object with our api key
 			RealtimeService realtimeService = api.getRealtimeService(); //get the realtime service
-			return realtimeService.vehiclelocations();//get vehicle locations synchronously
+			return realtimeService.vehicleLocations();//get vehicle locations synchronously
 		}
 
 		@Override protected void onPostExecute(ServerResponse<VehicleLocationResponse> response) {

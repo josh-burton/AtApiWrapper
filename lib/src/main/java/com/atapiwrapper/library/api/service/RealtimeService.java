@@ -20,7 +20,7 @@ public interface RealtimeService {
 	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
 	 */
 
-	@GET("/public/realtime/vehiclelocations") ServerResponse<VehicleLocationResponse> vehiclelocations();
+	@GET("/public/realtime/vehiclelocations") ServerResponse<VehicleLocationResponse> vehicleLocations();
 
 	/**
 	 * Returns real-time GTFS vehicle locations in the Auckland region. Returns a 30 second window of results otherwise returns results for
@@ -29,7 +29,7 @@ public interface RealtimeService {
 	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
 	 * @param cb The callback that will be called when the request completes
 	 */
-	@GET("/public/realtime/vehiclelocations") void vehiclelocations(Callback<ServerResponse<VehicleLocationResponse>> cb);
+	@GET("/public/realtime/vehiclelocations") void vehicleLocations(Callback<ServerResponse<VehicleLocationResponse>> cb);
 
 	//---------------------------------------
 	//	Vehicle Locations - Trip id filter
@@ -41,7 +41,7 @@ public interface RealtimeService {
 	 * @param tripId a comma separated list of trip ids
 	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
 	 */
-	@GET("/public/realtime/vehiclelocations") ServerResponse<VehicleLocationResponse> vehiclelocationsByTripId(
+	@GET("/public/realtime/vehiclelocations") ServerResponse<VehicleLocationResponse> vehicleLocationsByTripId(
 			@Query("tripid") String tripId);
 
 	/**
@@ -51,7 +51,7 @@ public interface RealtimeService {
 	 * @param cb The callback that will be called when the request completes
 	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
 	 */
-	@GET("/public/realtime/vehiclelocations") void vehiclelocationsByTripId(@Query("tripid") String tripId,
+	@GET("/public/realtime/vehiclelocations") void vehicleLocationsByTripId(@Query("tripid") String tripId,
 			Callback<ServerResponse<VehicleLocationResponse>> cb);
 
 	//---------------------------------------
@@ -64,7 +64,7 @@ public interface RealtimeService {
 	 * @param vehicleId a comma separated list of vehicle ids
 	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
 	 */
-	@GET("/public/realtime/vehiclelocations") ServerResponse<VehicleLocationResponse> vehiclelocationsByVehicleId(
+	@GET("/public/realtime/vehiclelocations") ServerResponse<VehicleLocationResponse> vehicleLocationsByVehicleId(
 			@Query("vehicleid") String vehicleId);
 
 	/**
@@ -74,7 +74,7 @@ public interface RealtimeService {
 	 * @param cb The callback that will be called when the request completes
 	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
 	 */
-	@GET("/public/realtime/vehiclelocations") void vehiclelocationsByVehicleId(@Query("vehicleid") String vehicleId,
+	@GET("/public/realtime/vehiclelocations") void vehicleLocationsByVehicleId(@Query("vehicleid") String vehicleId,
 			Callback<ServerResponse<VehicleLocationResponse>> cb);
 
 }

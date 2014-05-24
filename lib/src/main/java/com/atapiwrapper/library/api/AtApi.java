@@ -1,10 +1,14 @@
 package com.atapiwrapper.library.api;
 
-import com.atapiwrapper.library.api.service.DisplaysService;
+import com.atapiwrapper.library.api.model.geometry.Geometry;
+import com.atapiwrapper.library.api.model.geometry.GeometryDeserializer;
+import com.atapiwrapper.library.api.service.DisplayService;
 import com.atapiwrapper.library.api.service.GtfsService;
 import com.atapiwrapper.library.api.service.RealtimeService;
 import com.atapiwrapper.library.core.ATConstants;
+import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RequestInterceptor;
@@ -46,6 +50,12 @@ public class AtApi {
 	public RestAdapter getRestAdapter(OkHttpClient client) {
 		//setup mapper which uses custom deserializer
 		final ObjectMapper mapper = new ObjectMapper();
+
+		//setup custom deserializer module to handle geometry
+		SimpleModule module = new SimpleModule("GeometryDeserializerModule", new Version(1, 0, 0, null));
+		module.addDeserializer(Geometry.class, new GeometryDeserializer());
+		mapper.registerModule(module);
+
 		JacksonConverter converter = new JacksonConverter(mapper);
 
 		//request interceptor that will add an api key to every request
@@ -73,9 +83,9 @@ public class AtApi {
 		return mRestAdapter.create(GtfsService.class);
 	}
 
-	public DisplaysService getDisplaysService() {
+	public DisplayService getDisplaysService() {
 		if (null == mRestAdapter) mRestAdapter = getRestAdapter();
-		return mRestAdapter.create(DisplaysService.class);
+		return mRestAdapter.create(DisplayService.class);
 	}
 
 }

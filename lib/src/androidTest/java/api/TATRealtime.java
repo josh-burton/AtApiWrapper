@@ -29,7 +29,7 @@ public class TATRealtime extends AndroidTestCase {
 
 	public void testVehicleLocations() {
 
-		ServerResponse<VehicleLocationResponse> result = mRealtimeService.vehiclelocations();
+		ServerResponse<VehicleLocationResponse> result = mRealtimeService.vehicleLocations();
 
 		//make sure we have content
 		assertNotNull(result);
@@ -41,7 +41,7 @@ public class TATRealtime extends AndroidTestCase {
 	}
 	public void testVehicleLocationsByTripId() {
 
-		ServerResponse<VehicleLocationResponse> result = mRealtimeService.vehiclelocationsByTripId("2212GW582020451266647");
+		ServerResponse<VehicleLocationResponse> result = mRealtimeService.vehicleLocationsByTripId("2212GW582020451266647");
 
 		//make sure we have content
 		assertNotNull(result);
@@ -54,7 +54,8 @@ public class TATRealtime extends AndroidTestCase {
 
 	public void testVehicleLocationsByVehicleId() {
 
-		ServerResponse<VehicleLocationResponse> result = mRealtimeService.vehiclelocationsByTripId("4f9abf121ddd83f8eeed3a42ac2e159615fe5b3800333d0b9ca51f38700d1678");
+		ServerResponse<VehicleLocationResponse> result = mRealtimeService.vehicleLocationsByTripId(
+				"4f9abf121ddd83f8eeed3a42ac2e159615fe5b3800333d0b9ca51f38700d1678");
 
 		//make sure we have content
 		assertNotNull(result);
