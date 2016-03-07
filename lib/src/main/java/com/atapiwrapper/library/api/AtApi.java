@@ -9,11 +9,11 @@ import com.atapiwrapper.library.core.ATConstants;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.squareup.okhttp.OkHttpClient;
+import com.jakewharton.retrofit.Ok3Client;
 
+import okhttp3.OkHttpClient;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 import retrofit.converter.JacksonConverter;
 
 /**
@@ -69,7 +69,7 @@ public class AtApi {
 				.setRequestInterceptor(requestInterceptor);
 
 		//set custom client
-		if (null != client) restAdapter.setClient(new OkClient(client));
+		if (null != client) restAdapter.setClient(new Ok3Client(client));
 		return restAdapter.build();
 	}
 

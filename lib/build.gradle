@@ -1,18 +1,14 @@
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        if (project.hasProperty("API_KEY")) {
-            //adds a string to the  build config for testing
-            buildConfigField "String", "API_KEY", API_KEY
-        }
     }
 
     compileOptions {
@@ -21,7 +17,7 @@ android {
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -32,17 +28,17 @@ android {
         exclude 'META-INF/NOTICE'
     }
 }
-
-android.libraryVariants.all { variant ->
-    def name = variant.buildType.name
-    if (name.equals(com.android.builder.BuilderConstants.DEBUG)) {
-        return; // Skip debug builds.
-    }
-    def task = project.tasks.create "jar${name.capitalize()}", Jar
-    task.dependsOn variant.javaCompile
-    task.from variant.javaCompile.destinationDir
-    artifacts.add('archives', task);
-}
+//
+//android.libraryVariants.all { variant ->
+//    def name = variant.buildType.name
+//    if (name.equals(com.android.builder.BuilderConstants.DEBUG)) {
+//        return; // Skip debug builds.
+//    }
+//    def task = project.tasks.create "jar${name.capitalize()}", Jar
+//    task.dependsOn variant.javaCompile
+//    task.from variant.javaCompile.destinationDir
+//    artifacts.add('archives', task);
+//}
 
 dependencies {
 
@@ -50,8 +46,10 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.1'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.1'
 
-    compile 'com.squareup.retrofit:converter-jackson:1.+'
-    compile 'com.squareup.okhttp:okhttp:1.+'
-    compile 'com.squareup.retrofit:retrofit:1.+'
+    compile 'com.jakewharton.retrofit:retrofit1-okhttp3-client:1.0.2'
+
+    compile 'com.squareup.retrofit:converter-jackson:1.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.retrofit:retrofit:1.6.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

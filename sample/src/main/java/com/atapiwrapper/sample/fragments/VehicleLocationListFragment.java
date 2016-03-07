@@ -17,6 +17,7 @@ import com.atapiwrapper.library.api.model.ServerResponse;
 import com.atapiwrapper.library.api.model.realtime.vehiclelocations.VehicleLocation;
 import com.atapiwrapper.library.api.model.realtime.vehiclelocations.VehicleLocationResponse;
 import com.atapiwrapper.library.api.service.RealtimeService;
+import com.atapiwrapper.sample.BuildConfig;
 import com.atapiwrapper.sample.R;
 
 import java.util.ArrayList;
@@ -72,8 +73,7 @@ public class VehicleLocationListFragment extends ListFragment {
 		private VehicleLocationAsyncTask() {}
 
 		@Override protected ServerResponse<VehicleLocationResponse> doInBackground(Void... params) {
-			String apiKey = null;
-			//todo: add your api key here
+			String apiKey = BuildConfig.API_KEY;
 
 			if (null == apiKey) {
 				throw new IllegalArgumentException("api key was null");

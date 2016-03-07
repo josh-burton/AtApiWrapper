@@ -1,14 +1,25 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 19
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+        if (!properties.containsKey("api_key")){
+            throw new IllegalArgumentException("Must declare api_key in local.properties")
+        }
+        def apiKey = properties.getProperty('api_key')
+
+        //adds a string to the  build config for testing
+        buildConfigField "String", "API_KEY", "\"${apiKey}\""
     }
 
     compileOptions {
@@ -16,8 +27,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     buildTypes {
+        debug {
+
+        }
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -32,7 +46,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':lib')
-    compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.google.android.gms:play-services:4.2.42'
-    compile 'com.android.support:support-v4:19.+'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.google.android.gms:play-services-base:8.4.0'
+    compile 'com.android.support:support-v4:23.2.0'
+
 }
