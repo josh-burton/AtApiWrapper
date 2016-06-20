@@ -6,53 +6,35 @@ import com.atapiwrapper.library.api.model.display.ScheduledWork;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.http.GET;
+import retrofit2.Call;
+import retrofit2.http.GET;
 
 public interface DisplayService {
 
-	//---------------------------------------
-	//	Parking Locations
-	//---------------------------------------
+    //---------------------------------------
+    //	Parking Locations
+    //---------------------------------------
 
-	/**
-	 * 
-	 * Returns parking locations in the Auckland region
-	 * 
-	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
-	 */
+    /**
+     * Returns parking locations in the Auckland region
+     *
+     * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
+     */
 
-	@GET("/public/display/parkinglocations") ServerResponse<List<ParkingLocation>> parkingLocations();
+    @GET("public/display/parkinglocations")
+    Call<ServerResponse<List<ParkingLocation>>> parkingLocations();
 
-	/**
-	 * 
-	 * Returns parking locations in the Auckland region
-	 * 
-	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
-	 * @param cb The callback that will be called when the request completes
-	 */
-	@GET("/public/display/parkinglocations") void parkingLocations(Callback<ServerResponse<List<ParkingLocation>>> cb);
+    //---------------------------------------
+    // Scheduled Works
+    //---------------------------------------
 
-	//---------------------------------------
-	// Scheduled Works
-	//---------------------------------------
+    /**
+     * Returns scheduled works in the Auckland region. e.g. road works
+     *
+     * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
+     */
 
-	/**
-	 *
-	 * Returns scheduled works in the Auckland region. e.g. road works
-	 *
-	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
-	 */
-
-	@GET("/public/display/scheduledworks") ServerResponse<List<ScheduledWork>> scheduledWorks();
-
-	/**
-	 *
-	 * Returns scheduled works in the Auckland region. e.g. road works
-	 *
-	 * @return {@link com.atapiwrapper.library.api.model.ServerResponse}
-	 * @param cb The callback that will be called when the request completes
-	 */
-	@GET("/public/display/scheduledworks") void scheduledWorks(Callback<ServerResponse<List<ScheduledWork>>> cb);
+    @GET("public/display/scheduledworks")
+    Call<ServerResponse<List<ScheduledWork>>> scheduledWorks();
 
 }

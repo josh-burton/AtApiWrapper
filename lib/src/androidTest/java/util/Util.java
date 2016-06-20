@@ -1,7 +1,6 @@
 package util;
 
 import com.atapiwrapper.library.BuildConfig;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -10,6 +9,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
 
 public class Util {
 
@@ -20,9 +21,9 @@ public class Util {
 	 * @return OkHttpClient
 	 */
 	public static OkHttpClient getClient() {
-		OkHttpClient okClient = new OkHttpClient();
-		if (BuildConfig.DEBUG) okClient.setSslSocketFactory(badSslSocketFactory());
-		return okClient;
+		OkHttpClient.Builder okClient = new OkHttpClient.Builder();
+		if (BuildConfig.DEBUG) okClient.sslSocketFactory(badSslSocketFactory());
+		return okClient.build();
 	}
 
 	/**

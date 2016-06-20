@@ -7,85 +7,106 @@ import com.atapiwrapper.library.api.service.GtfsService;
 import com.atapiwrapper.library.api.service.RealtimeService;
 import com.atapiwrapper.library.core.ATConstants;
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.jakewharton.retrofit.Ok3Client;
 
+import java.io.IOException;
+
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.converter.JacksonConverter;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 /**
  * Main entry point to interact with the AT Api
  */
 public class AtApi {
 
-	private final String mApiKey;
-	private RestAdapter mRestAdapter;
+    private final String mApiKey;
+    private Retrofit retrofit;
 
-	/**
-	 * 
-	 * @param apiKey
-	 */
-	public AtApi(String apiKey) {
-		mApiKey = apiKey;
-	}
+    /**
+     * @param apiKey
+     */
+    public AtApi(String apiKey) {
+        mApiKey = apiKey;
+    }
 
-	/**
-	 * Get the rest adapter to make requests to the api
-	 **/
+    /**
+     * Get the rest adapter to make requests to the api
+     **/
 
-	public RestAdapter getRestAdapter() {
-		return getRestAdapter(null);
-	}
+    public Retrofit getRestAdapter() {
+        return getRestAdapter(null);
+    }
 
-	/**
-	 * Get the rest adapter to make requests to the api
-	 * 
-	 * @param client an ok http client to use for the requests (optional)
-	 * 
-	 * @return
-	 */
-	public RestAdapter getRestAdapter(OkHttpClient client) {
-		//setup mapper which uses custom deserializer
-		final ObjectMapper mapper = new ObjectMapper();
+    /**
+     * Get the rest adapter to make requests to the api
+     *
+     * @param client an ok http client to use for the requests (optional)
+     * @return
+     */
+    public Retrofit getRestAdapter(OkHttpClient client) {
+        //set custom client
+        if (null == client) {
+            client = new OkHttpClient();
+        }
 
-		//setup custom deserializer module to handle geometry
-		SimpleModule module = new SimpleModule("GeometryDeserializerModule", new Version(1, 0, 0, null));
-		module.addDeserializer(Geometry.class, new GeometryDeserializer());
-		mapper.registerModule(module);
+        //setup mapper which uses custom deserializer
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		JacksonConverter converter = new JacksonConverter(mapper);
+        //setup custom deserializer module to handle geometry
+        SimpleModule module = new SimpleModule("GeometryDeserializerModule", new Version(1, 0, 0, null));
+        module.addDeserializer(Geometry.class, new GeometryDeserializer());
+        mapper.registerModule(module);
 
-		//request interceptor that will add an api key to every request
-		RequestInterceptor requestInterceptor = new RequestInterceptor() {
-			@Override public void intercept(RequestFacade request) {
-				request.addQueryParam("api_key", mApiKey);
-			}
-		};
+        JacksonConverterFactory converter = JacksonConverterFactory.create(mapper);
 
-		RestAdapter.Builder restAdapter = new RestAdapter.Builder().setEndpoint(ATConstants.ENDPOINT).setConverter(converter)
-				.setRequestInterceptor(requestInterceptor);
+        OkHttpClient.Builder clientBuilder = client.newBuilder();
+        clientBuilder.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request original = chain.request();
+                HttpUrl originalHttpUrl = original.url();
 
-		//set custom client
-		if (null != client) restAdapter.setClient(new Ok3Client(client));
-		return restAdapter.build();
-	}
+                HttpUrl url = originalHttpUrl.newBuilder()
+                        .addQueryParameter("api_key", mApiKey)
+                        .build();
+                // Request customization: add request headers
+                Request.Builder requestBuilder = original.newBuilder()
+                        .url(url);
 
-	public RealtimeService getRealtimeService() {
-		if (null == mRestAdapter) mRestAdapter = getRestAdapter();
-		return mRestAdapter.create(RealtimeService.class);
-	}
+                Request request = requestBuilder.build();
+                return chain.proceed(request);
+            }
+        });
 
-	public GtfsService getGtfsService() {
-		if (null == mRestAdapter) mRestAdapter = getRestAdapter();
-		return mRestAdapter.create(GtfsService.class);
-	}
+        Retrofit.Builder restAdapter = new Retrofit.Builder()
+                .baseUrl(ATConstants.ENDPOINT)
+                .addConverterFactory(converter)
+                .client(clientBuilder.build());
 
-	public DisplayService getDisplaysService() {
-		if (null == mRestAdapter) mRestAdapter = getRestAdapter();
-		return mRestAdapter.create(DisplayService.class);
-	}
+        return restAdapter.build();
+    }
+
+    public RealtimeService getRealtimeService() {
+        if (null == retrofit) retrofit = getRestAdapter();
+        return retrofit.create(RealtimeService.class);
+    }
+
+    public GtfsService getGtfsService() {
+        if (null == retrofit) retrofit = getRestAdapter();
+        return retrofit.create(GtfsService.class);
+    }
+
+    public DisplayService getDisplaysService() {
+        if (null == retrofit) retrofit = getRestAdapter();
+        return retrofit.create(DisplayService.class);
+    }
 
 }

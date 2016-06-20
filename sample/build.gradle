@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        applicationId "com.atapiwrapper.library"
 
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -46,8 +47,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':lib')
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.google.android.gms:play-services-base:8.4.0'
-    compile 'com.android.support:support-v4:23.2.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.google.android.gms:play-services-base:9.0.2'
+    compile 'com.android.support:support-v4:24.0.0'
 
 }

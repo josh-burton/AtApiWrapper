@@ -12,10 +12,10 @@ import com.atapiwrapper.library.api.model.gtfs.Trip;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.http.GET;
-import retrofit.http.Path;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface GtfsService {
 
@@ -25,17 +25,9 @@ public interface GtfsService {
 
 	/**
 	 * List of the transit agencies that provide the data in this feed.
-	 * 
-	 * @return list of agencies
 	 */
-	@GET("/gtfs/agency") ServerResponse<List<Agency>> agencies();
-
-	/**
-	 * List of the transit agencies that provide the data in this feed.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/agency") void agencies(Callback<ServerResponse<List<Agency>>> cb);
+	@GET("gtfs/agency")
+	Call<ServerResponse<List<Agency>>> agencies();
 
 	//---------------------------------------
 	//	Calendars
@@ -46,15 +38,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of calendars
 	 */
-	@GET("/gtfs/calendar") ServerResponse<List<Calendar>> calendars();
-
-	/**
-	 * Dates for service IDs using a weekly schedule. Specify when service starts and ends, as well as days of the week where service is
-	 * available.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/calendar") void calendars(Callback<ServerResponse<List<Calendar>>> cb);
+	@GET("gtfs/calendar") Call<ServerResponse<List<Calendar>>> calendars();
 
 	//---------------------------------------
 	//	Calendars By Service Id
@@ -66,17 +50,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of calendars
 	 */
-	@GET("/gtfs/calendar/serviceId/{serviceId}") ServerResponse<List<Calendar>> calendarsByServiceId(@Path("serviceId") String serviceId);
-
-	/**
-	 * 
-	 * Dates for service IDs using a weekly schedule. Specify when service starts and ends, as well as days of the week where service is
-	 * available, filtered by service id
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/calendar/serviceId/{serviceId}") void calendarByServiceId(@Path("serviceId") String serviceId,
-			Callback<ServerResponse<List<Calendar>>> cb);
+	@GET("gtfs/calendar/serviceId/{serviceId}") Call<ServerResponse<List<Calendar>>> calendarsByServiceId(@Path("serviceId") String serviceId);
 
 	//---------------------------------------
 	//	Calendar Exceptions
@@ -86,13 +60,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of calendars
 	 */
-	@GET("/gtfs/calendarDate") ServerResponse<List<CalendarException>> calendarExceptions();
-
-	/**
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/calendarDate") void calendarExceptions(Callback<ServerResponse<List<CalendarException>>> cb);
+	@GET("gtfs/calendarDate") Call<ServerResponse<List<CalendarException>>> calendarExceptions();
 
 	//---------------------------------------
 	//	Calendar Exceptions By Service Id
@@ -103,17 +71,8 @@ public interface GtfsService {
 	 * 
 	 * @return list of calendars
 	 */
-	@GET("/gtfs/calendarDate/serviceId/{serviceId}") ServerResponse<List<CalendarException>> calendarExceptionsByServiceId(
+	@GET("gtfs/calendarDate/serviceId/{serviceId}") Call<ServerResponse<List<CalendarException>>> calendarExceptionsByServiceId(
 			@Path("serviceId") String serviceId);
-
-	/**
-	 * 
-	 * Exceptions for the service IDs defined in the calendar list
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/calendarDate/serviceId/{serviceId}") void calendarExceptionsByServiceId(@Path("serviceId") String serviceId,
-			Callback<ServerResponse<List<CalendarException>>> cb);
 
 	//---------------------------------------
 	// Routes
@@ -124,15 +83,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of routes
 	 */
-	@GET("/gtfs/routes") ServerResponse<List<Route>> routes();
-
-	/**
-	 * 
-	 * Transit routes. A route is a group of trips that are displayed to riders as a single service.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/routes") void routes(Callback<ServerResponse<List<Route>>> cb);
+	@GET("gtfs/routes") Call<ServerResponse<List<Route>>> routes();
 
 	//---------------------------------------
 	// Routes filtered by id
@@ -143,15 +94,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of routes
 	 */
-	@GET("/gtfs/routes/routeId/{routeId}") ServerResponse<List<Route>> routesById(@Path("routeId") String routeId);
-
-	/**
-	 * 
-	 * Transit routes. A route is a group of trips that are displayed to riders as a single service.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/routes/routeId/{routeId}") void routesById(@Path("routeId") String routeId, Callback<ServerResponse<List<Route>>> cb);
+	@GET("gtfs/routes/routeId/{routeId}") Call<ServerResponse<List<Route>>> routesById(@Path("routeId") String routeId);
 
 	//---------------------------------------
 	// Routes filtered by long name
@@ -162,17 +105,8 @@ public interface GtfsService {
 	 * 
 	 * @return list of routes
 	 */
-	@GET("/gtfs/routes/routeLongName/{routeLongName}") ServerResponse<List<Route>> routesByLongName(
+	@GET("gtfs/routes/routeLongName/{routeLongName}") Call<ServerResponse<List<Route>>> routesByLongName(
 			@Path("routeLongName") String routeLongName);
-
-	/**
-	 * 
-	 * Transit routes. A route is a group of trips that are displayed to riders as a single service.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/routes/routeLongName/{routeLongName}") void routesByLongName(@Path("routeLongName") String routeLongName,
-			Callback<ServerResponse<List<Route>>> cb);
 
 	//---------------------------------------
 	// Routes search
@@ -183,15 +117,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of routes
 	 */
-	@GET("/gtfs/routes/search/{query}") ServerResponse<List<Route>> routesSearch(@Path("query") String query);
-
-	/**
-	 * 
-	 * Transit routes. A route is a group of trips that are displayed to riders as a single service.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/routes/search/{query}") void routesSearch(@Path("query") String query, Callback<ServerResponse<List<Route>>> cb);
+	@GET("gtfs/routes/search/{query}") Call<ServerResponse<List<Route>>> routesSearch(@Path("query") String query);
 
 	//---------------------------------------
 	// Routes geo search
@@ -202,17 +128,8 @@ public interface GtfsService {
 	 * 
 	 * @return list of routes
 	 */
-	@GET("/gtfs/routes/geosearch") ServerResponse<List<Route>> routesGeoSearch(@Query("lat") Double lat, @Query("lng") Double lng,
-			@Query("distance") Double distance);
-
-	/**
-	 * 
-	 * Transit routes. A route is a group of trips that are displayed to riders as a single service.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/routes/geosearch") void routesGeoSearch(@Query("lat") Double lat, @Query("lng") Double lng,
-			@Query("distance") Double distance, Callback<ServerResponse<List<Route>>> cb);
+	@GET("gtfs/routes/geosearch") Call<ServerResponse<List<Route>>> routesGeoSearch(@Query("lat") Double lat, @Query("lng") Double lng,
+																			   @Query("distance") Double distance);
 
 	//---------------------------------------
 	// Routes search by stop id
@@ -223,15 +140,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of routes
 	 */
-	@GET("/gtfs/routes/stopid/{stopId}") ServerResponse<List<Route>> routesSearchByStopId(@Path("stopId") String stopId);
-
-	/**
-	 * 
-	 * Transit routes. A route is a group of trips that are displayed to riders as a single service.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/routes/stopid/{stopId}") void routesSearchByStopId(@Path("stopId") String stopId, Callback<ServerResponse<List<Route>>> cb);
+	@GET("gtfs/routes/stopid/{stopId}") Call<ServerResponse<List<Route>>> routesSearchByStopId(@Path("stopId") String stopId);
 
 	//---------------------------------------
 	// Stops
@@ -242,15 +151,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of stops
 	 */
-	@GET("/gtfs/stops") ServerResponse<List<Stop>> stops();
-
-	/**
-	 * 
-	 * List of individual locations where vehicles pick up or drop off passengers.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/stops") void stops(Callback<ServerResponse<List<Stop>>> cb);
+	@GET("gtfs/stops") Call<ServerResponse<List<Stop>>> stops();
 
 	//---------------------------------------
 	// Stops by id
@@ -261,15 +162,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of stops
 	 */
-	@GET("/gtfs/stops/stopId/{stopid}") ServerResponse<List<Stop>> stopsById(@Path("stopid") String stopId);
-
-	/**
-	 * 
-	 * List of individual locations where vehicles pick up or drop off passengers.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/stops/stopId/{stopid}") void stopsById(@Path("stopid") String stopId, Callback<ServerResponse<List<Stop>>> cb);
+	@GET("gtfs/stops/stopId/{stopid}") Call<ServerResponse<List<Stop>>> stopsById(@Path("stopid") String stopId);
 
 	//---------------------------------------
 	// Stops by stop code
@@ -280,15 +173,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of stops
 	 */
-	@GET("/gtfs/stops/stopCode/{code}") ServerResponse<List<Stop>> stopsByCode(@Path("code") String stopCode);
-
-	/**
-	 * 
-	 * List of individual locations where vehicles pick up or drop off passengers.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/stops/stopCode/{code}") void stopsByCode(@Path("code") String stopCode, Callback<ServerResponse<List<Stop>>> cb);
+	@GET("gtfs/stops/stopCode/{code}") Call<ServerResponse<List<Stop>>> stopsByCode(@Path("code") String stopCode);
 
 	//---------------------------------------
 	// Stop search by name
@@ -299,15 +184,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of stops
 	 */
-	@GET("/gtfs/stops/search/{name}") ServerResponse<List<Stop>> stopSearchByName(@Path("name") String stopName);
-
-	/**
-	 * 
-	 * List of individual locations where vehicles pick up or drop off passengers.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/stops/search/{name}") void stopSearchByName(@Path("name") String stopName, Callback<ServerResponse<List<Stop>>> cb);
+	@GET("gtfs/stops/search/{name}") Call<ServerResponse<List<Stop>>> stopSearchByName(@Path("name") String stopName);
 
 	//---------------------------------------
 	// Stop times by stop id
@@ -318,15 +195,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of stop times
 	 */
-	@GET("/gtfs/stopTimes/stopId/{stopid}") ServerResponse<List<StopTime>> stopTimesByStopId(@Path("stopid") String stopId);
-
-	/**
-	 * List of times that a vehicle arrives at and departs from individual stops for each trip, filtered by stop id
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/stopTimes/stopId/{stopid}") void stopTimesByStopId(@Path("stopid") String stopId,
-			Callback<ServerResponse<List<StopTime>>> cb);
+	@GET("gtfs/stopTimes/stopId/{stopid}") Call<ServerResponse<List<StopTime>>> stopTimesByStopId(@Path("stopid") String stopId);
 
 	//---------------------------------------
 	// Stop times by trip id
@@ -337,15 +206,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of stop times
 	 */
-	@GET("/gtfs/stopTimes/tripId/{tripid}") ServerResponse<List<StopTime>> stopTimesByTripId(@Path("tripid") String tripid);
-
-	/**
-	 * List of times that a vehicle arrives at and departs from individual stops for each trip, filtered by trip id
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/stopTimes/tripId/{tripid}") void stopTimesByTripId(@Path("tripid") String tripid,
-			Callback<ServerResponse<List<StopTime>>> cb);
+	@GET("gtfs/stopTimes/tripId/{tripid}") Call<ServerResponse<List<StopTime>>> stopTimesByTripId(@Path("tripid") String tripid);
 
 	//---------------------------------------
 	// Trips
@@ -356,14 +217,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of trips
 	 */
-	@GET("/gtfs/trips") ServerResponse<List<Trip>> trips();
-
-	/**
-	 * List of trips for each route. A trip is a sequence of two or more stops that occurs at specific time.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/trips") void trips(Callback<ServerResponse<List<Trip>>> cb);
+	@GET("gtfs/trips") Call<ServerResponse<List<Trip>>> trips();
 
 	//---------------------------------------
 	// Trips by trip id
@@ -374,14 +228,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of trips
 	 */
-	@GET("/gtfs/trips/tripId/{tripid}") ServerResponse<List<Trip>> tripsByTripId(@Path("tripid") String tripId);
-
-	/**
-	 * List of trips for each route. A trip is a sequence of two or more stops that occurs at specific time.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/trips/tripId/{tripid}") void tripsByTripId(@Path("tripid") String tripId, Callback<ServerResponse<List<Trip>>> cb);
+	@GET("gtfs/trips/tripId/{tripid}") Call<ServerResponse<List<Trip>>> tripsByTripId(@Path("tripid") String tripId);
 
 	//---------------------------------------
 	// Trips by route id
@@ -392,14 +239,7 @@ public interface GtfsService {
 	 * 
 	 * @return list of trips
 	 */
-	@GET("/gtfs/trips/routeid/{routeid}") ServerResponse<List<Trip>> tripsByRouteid(@Path("routeid") String routeid);
-
-	/**
-	 * List of trips for each route. A trip is a sequence of two or more stops that occurs at specific time.
-	 * 
-	 * @param cb - callback that gets called on request complete
-	 */
-	@GET("/gtfs/trips/routeid/{routeid}") void tripsByRouteid(@Path("routeid") String routeid, Callback<ServerResponse<List<Trip>>> cb);
+	@GET("gtfs/trips/routeid/{routeid}") Call<ServerResponse<List<Trip>>> tripsByRouteid(@Path("routeid") String routeid);
 
     //---------------------------------------
     // Shapes by id
@@ -409,16 +249,8 @@ public interface GtfsService {
      * List of points in the given shape
      *
      * @param shapeId - the tripId of the desired shape
-     * @param cb - callback that gets called on request complete
      */
-    @GET("/gtfs/shapes/shapeId/{shapeId}") void shapeById(@Path("shapeId") String shapeId, Callback<ServerResponse<List<ShapePoint>>> cb);
-
-    /**
-     * List of points in the given shape
-     *
-     * @param shapeId - the tripId of the desired shape
-     */
-    @GET("/gtfs/shapes/shapeId/{shapeId}") ServerResponse<List<ShapePoint>> shapeById(@Path("shapeId") String shapeId);
+    @GET("gtfs/shapes/shapeId/{shapeId}") Call<ServerResponse<List<ShapePoint>>> shapeById(@Path("shapeId") String shapeId);
 
     //---------------------------------------
     // Shapes by trip id
@@ -428,16 +260,8 @@ public interface GtfsService {
      * List of points in the shape for a given tripId
      *
      * @param tripId - the tripId of the desired shape
-     * @param cb - callback that gets called on request complete
      */
-    @GET("/gtfs/shapes/tripId/{tripId}") void shapeByTripId(@Path("tripId") String tripId, Callback<ServerResponse<List<ShapePoint>>> cb);
-
-    /**
-     * List of points in the shape for a given tripId
-     *
-     * @param tripId - the tripId of the desired shape
-     */
-    @GET("/gtfs/shapes/tripId/{tripId}") ServerResponse<List<ShapePoint>> shapeByTripId(@Path("tripId") String tripId);
+    @GET("gtfs/shapes/tripId/{tripId}") Call<ServerResponse<List<ShapePoint>>> shapeByTripId(@Path("tripId") String tripId);
 
 
 }
